@@ -1,5 +1,5 @@
 //
-//  DataModel.swift
+//  WorkoutsManager.swift
 //  My workouts
 //
 //  Created by  Vladyslav Fil on 25.08.2020.
@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-struct DataModel {
+struct WorkoutsManager {
     let maxRepetitionNumber = 100
     let typeNames = ["PUSH-UPS", "JUMPING JACK", "WIDE ARM PUSH-UPS", "SQUATS", "SUMO SQUAT"]
     
@@ -47,9 +47,13 @@ struct DataModel {
             let days = try context.fetch(daysRequest)
             if days.count >= 1 {
                 currentDay = days[0]
+                // Test log
+                print("Current day exists")
             } else {
                 currentDay = Day(context: self.context)
-                currentDay?.date = getStartOfDay(date: Date())
+                currentDay?.date = today
+                // Test log
+                print("Current day created")
             }
             
             let typesRequest: NSFetchRequest<WorkoutType> = WorkoutType.fetchRequest()
@@ -65,6 +69,8 @@ struct DataModel {
         do {
             let types = try context.fetch(request)
             if types.count >= 1 {
+                // Test log
+                print("'\(name)' type exists")
                 return types[0]
             }
         } catch {
@@ -72,13 +78,20 @@ struct DataModel {
         }
         let type = WorkoutType(context: self.context)
         type.name = name
+        // Test log
+        print("'\(name)' type created")
         return type
     }
     
     func getStartOfDay(date: Date) -> Date {
         var calendar = Calendar.current
         calendar.timeZone = NSTimeZone.local
-        
         return calendar.startOfDay(for: date)
+    }
+    
+    func getFormatedDateString(date: Date, format: String = "dd.MM.yyyy") -> String {
+        let dateFormater = DateFormatter()
+        dateFormater.dateFormat = format
+        return dateFormater.string(from: date)
     }
 }

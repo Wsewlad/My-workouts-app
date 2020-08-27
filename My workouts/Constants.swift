@@ -10,5 +10,7 @@ import Foundation
 
 struct K {
     static let appName = "My workouts"
-    static let workoutDayCellIdentifier = "WorkoutDayCell"
+    static let dayCellIdentifier = "WorkoutDayCell"
+    static let workoutCellIdentifier = "WorkoutCell"
+    static let dayDetailSegueIdentifier = "WorkoutDayDetailSegue"
 }

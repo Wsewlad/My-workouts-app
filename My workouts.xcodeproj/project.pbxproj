@@ -15,7 +15,9 @@
 		82292F6524EFFE7F0061DE0C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 82292F6324EFFE7F0061DE0C /* LaunchScreen.storyboard */; };
 		82292F7024F007890061DE0C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82292F6F24F007890061DE0C /* Constants.swift */; };
 		82292F7224F009760061DE0C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82292F7124F009760061DE0C /* SceneDelegate.swift */; };
-		82292F7524F5547A0061DE0C /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82292F7424F5547A0061DE0C /* DataModel.swift */; };
+		82292F7524F5547A0061DE0C /* WorkoutsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82292F7424F5547A0061DE0C /* WorkoutsManager.swift */; };
+		82292F7724F5902B0061DE0C /* DayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82292F7624F5902B0061DE0C /* DayViewController.swift */; };
+		82292F7924F6C17F0061DE0C /* WorkoutDayManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82292F7824F6C17F0061DE0C /* WorkoutDayManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,7 +31,9 @@
 		82292F6624EFFE7F0061DE0C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		82292F6F24F007890061DE0C /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		82292F7124F009760061DE0C /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		82292F7424F5547A0061DE0C /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
+		82292F7424F5547A0061DE0C /* WorkoutsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutsManager.swift; sourceTree = "<group>"; };
+		82292F7624F5902B0061DE0C /* DayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayViewController.swift; sourceTree = "<group>"; };
+		82292F7824F6C17F0061DE0C /* WorkoutDayManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutDayManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				82292F5924EFFE760061DE0C /* MainViewController.swift */,
+				82292F7624F5902B0061DE0C /* DayViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -87,7 +92,8 @@
 		82292F7324F5545E0061DE0C /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				82292F7424F5547A0061DE0C /* DataModel.swift */,
+				82292F7424F5547A0061DE0C /* WorkoutsManager.swift */,
+				82292F7824F6C17F0061DE0C /* WorkoutDayManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -168,7 +174,9 @@
 				82292F5624EFFE760061DE0C /* AppDelegate.swift in Sources */,
 				82292F6024EFFE760061DE0C /* My_workouts.xcdatamodeld in Sources */,
 				82292F7024F007890061DE0C /* Constants.swift in Sources */,
-				82292F7524F5547A0061DE0C /* DataModel.swift in Sources */,
+				82292F7724F5902B0061DE0C /* DayViewController.swift in Sources */,
+				82292F7924F6C17F0061DE0C /* WorkoutDayManager.swift in Sources */,
+				82292F7524F5547A0061DE0C /* WorkoutsManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -5,7 +5,7 @@
         <relationship name="workouts" toMany="YES" deletionRule="Nullify" destinationEntity="Workout" inverseName="day" inverseEntity="Workout"/>
     </entity>
     <entity name="Workout" representedClassName=".Workout" syncable="YES" codeGenerationType="class">
-        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="date" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="repetition" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="day" maxCount="1" deletionRule="Nullify" destinationEntity="Day" inverseName="workouts" inverseEntity="Day"/>
         <relationship name="type" maxCount="1" deletionRule="Nullify" destinationEntity="WorkoutType" inverseName="workouts" inverseEntity="WorkoutType"/>

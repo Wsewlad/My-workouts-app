@@ -93,12 +93,59 @@
                     </view>
                     <navigationItem key="navigationItem" title="My workouts" id="JTC-ws-4If"/>
                     <connections>
+                        <outlet property="totalWorkoutDaysLabel" destination="dGc-To-OAh" id="LSs-O3-0Na"/>
                         <outlet property="workoutDaysTableView" destination="yJF-Y6-RDx" id="QdX-Nq-blc"/>
+                        <segue destination="2zr-sA-gdZ" kind="show" identifier="WorkoutDayDetailSegue" id="80u-Kh-YoP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1047.8260869565217" y="115.84821428571428"/>
+        </scene>
+        <!--Day-->
+        <scene sceneID="Z5I-ac-bKT">
+            <objects>
+                <viewController id="2zr-sA-gdZ" customClass="DayViewController" customModule="My_workouts" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="oqH-1K-4Sr">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="o2O-O4-J0F">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="WorkoutCell" id="nco-GV-noo">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="nco-GV-noo" id="YD2-wC-EJl">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="2zr-sA-gdZ" id="BCe-kS-kGJ"/>
+                                    <outlet property="delegate" destination="2zr-sA-gdZ" id="6LV-0Q-sjL"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="eX0-nQ-dsd" firstAttribute="bottom" secondItem="o2O-O4-J0F" secondAttribute="bottom" id="2rw-o0-KNI"/>
+                            <constraint firstItem="o2O-O4-J0F" firstAttribute="leading" secondItem="eX0-nQ-dsd" secondAttribute="leading" id="69J-PP-Ddb"/>
+                            <constraint firstItem="eX0-nQ-dsd" firstAttribute="trailing" secondItem="o2O-O4-J0F" secondAttribute="trailing" id="Ocg-gY-eqi"/>
+                            <constraint firstItem="o2O-O4-J0F" firstAttribute="top" secondItem="eX0-nQ-dsd" secondAttribute="top" id="dgr-N8-Uc2"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="eX0-nQ-dsd"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Day" id="1R4-ir-IMQ"/>
+                    <connections>
+                        <outlet property="dayDetailsTableView" destination="o2O-O4-J0F" id="o6Q-H7-Ixq"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5Ax-xJ-0vN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1830" y="121"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Z2S-lc-wH2">
