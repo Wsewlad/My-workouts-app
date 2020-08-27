@@ -30,6 +30,9 @@ struct WorkoutDayManager {
             typesRequest.predicate = NSPredicate(format: "ANY workouts IN %@", workouts)
             types = try context.fetch(typesRequest)
             types = types.sorted { getWorkoutsBy(type: $0)[0].date! > getWorkoutsBy(type: $1)[0].date! }
+            for section in 0..<types.count {
+                hiddenSections.insert(section)
+            }
         } catch {
             print("Failed to load workout data, \(error)")
         }

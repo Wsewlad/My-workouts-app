@@ -25,10 +25,10 @@ class DayViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
-    
 }
+
+//MARK: - TableView Delegate and DataSource methods
 
 extension DayViewController: UITableViewDelegate, UITableViewDataSource {
     
@@ -54,24 +54,34 @@ extension DayViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    //MARK: - Section Header Constructor
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         let tableWidth = tableView.frame.size.width
-        
+        let workoutType = workoutDayManager.types[section]
+        let workouts = workoutDayManager.getWorkoutsBy(type: workoutType)
         let view = UIView()
         view.backgroundColor = .lightGray
         
-        let label = UILabel()
-        label.text = workoutDayManager.types[section].name
-        label.frame = CGRect(x: 10, y: 0, width: tableWidth - 50, height: 50)
-        label.numberOfLines = 0
-        view.addSubview(label)
+        let typeLabel = UILabel()
+        typeLabel.text = workoutType.name
+        typeLabel.frame = CGRect(x: 10, y: 0, width: tableWidth - 50, height: 25)
+        typeLabel.numberOfLines = 0
+        view.addSubview(typeLabel)
+        
+        let totalLabel = UILabel()
+        var total = 0
+        workouts.forEach { total += Int($0.repetition) }
+        totalLabel.text = String(format: "%4d", total)
+        totalLabel.frame = CGRect(x: 20, y: 30, width: tableWidth - 50, height: 25)
+        view.addSubview(totalLabel)
         
         let sectionButton = UIButton()
         sectionButton.tintColor = .black
         sectionButton.setImage(UIImage(systemName: "chevron.up"), for: .normal)
         sectionButton.tag = section
-        sectionButton.frame = CGRect(x: tableWidth - 50, y: 0, width: 50, height: 50)
+        sectionButton.frame = CGRect(x: tableWidth - 50, y: 0, width: 50, height: 60)
         sectionButton.addTarget(self, action: #selector(self.hideSection(sender:)), for: .touchUpInside)
         view.addSubview(sectionButton)
         
@@ -82,23 +92,21 @@ extension DayViewController: UITableViewDelegate, UITableViewDataSource {
         return view
     }
     
+    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50
+        return 60
     }
+    
     
     @objc private func hideSection(sender: UIButton) {
         let section = sender.tag
-        
         func indexPathsForSection() -> [IndexPath] {
             var indexPaths = [IndexPath]()
-            
             for row in 0 ..< workoutDayManager.getWorkoutsBy(type: workoutDayManager.types[section]).count {
                 indexPaths.append(IndexPath(row: row, section: section))
             }
-            
             return indexPaths
         }
-        
         if self.workoutDayManager.hiddenSections.contains(section) {
             self.workoutDayManager.hiddenSections.remove(section)
             self.dayDetailsTableView.insertRows(at: indexPathsForSection(), with: .fade)
