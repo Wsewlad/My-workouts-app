@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="WorkoutSectionHeaderView" customModule="My_workouts" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="423" height="134"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0sw-Px-sBz" userLabel="Custom Content View">
+                    <rect key="frame" x="10" y="10" width="403" height="122"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XDZ-g1-ysr">
+                            <rect key="frame" x="182.5" y="47.5" width="38.5" height="27.5"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="23"/>
+                            <color key="textColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TRx-Qi-fef" userLabel="Expand Button">
+                            <rect key="frame" x="343" y="36" width="50" height="50"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="fDT-9M-QcB"/>
+                                <constraint firstAttribute="width" constant="50" id="fpQ-vT-Afm"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                            <color key="tintColor" systemColor="systemGray2Color" red="0.68235294120000001" green="0.68235294120000001" blue="0.69803921570000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <state key="normal" image="chevron.down.circle.fill" catalog="system">
+                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="50"/>
+                            </state>
+                            <connections>
+                                <action selector="toggleButtonPressed:" destination="-2" eventType="touchUpInside" id="1AT-kM-I8l"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Type name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="sIT-e3-joA">
+                            <rect key="frame" x="10" y="49.5" width="97.5" height="23.5"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
+                            <color key="textColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <constraints>
+                        <constraint firstItem="XDZ-g1-ysr" firstAttribute="centerY" secondItem="0sw-Px-sBz" secondAttribute="centerY" id="1zh-oN-Cu5"/>
+                        <constraint firstItem="sIT-e3-joA" firstAttribute="leading" secondItem="0sw-Px-sBz" secondAttribute="leading" constant="10" id="SqB-Wv-vtN"/>
+                        <constraint firstItem="XDZ-g1-ysr" firstAttribute="centerX" secondItem="0sw-Px-sBz" secondAttribute="centerX" id="ZTO-Ab-ECr"/>
+                        <constraint firstItem="sIT-e3-joA" firstAttribute="centerY" secondItem="0sw-Px-sBz" secondAttribute="centerY" id="cu2-6d-RXs"/>
+                        <constraint firstItem="TRx-Qi-fef" firstAttribute="centerY" secondItem="0sw-Px-sBz" secondAttribute="centerY" id="p2O-jk-EiM"/>
+                        <constraint firstItem="XDZ-g1-ysr" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="sIT-e3-joA" secondAttribute="trailing" constant="10" id="vNU-2A-qtX"/>
+                        <constraint firstAttribute="trailing" secondItem="TRx-Qi-fef" secondAttribute="trailing" constant="10" id="x9i-Hf-l8U"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <constraints>
+                <constraint firstItem="0sw-Px-sBz" firstAttribute="bottom" secondItem="iN0-l3-epB" secondAttribute="bottom" constant="-2" id="2gC-fJ-pzA"/>
+                <constraint firstAttribute="top" secondItem="0sw-Px-sBz" secondAttribute="top" constant="-10" id="ZUA-RL-v7J"/>
+                <constraint firstItem="0sw-Px-sBz" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="m2S-gs-H25"/>
+                <constraint firstAttribute="trailing" secondItem="0sw-Px-sBz" secondAttribute="trailing" constant="10" id="wOV-b7-D2f"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="customContentView" destination="0sw-Px-sBz" id="Sy5-7f-jmc"/>
+                <outlet property="toggleButton" destination="TRx-Qi-fef" id="8kN-Y2-kKw"/>
+                <outlet property="totalLabel" destination="XDZ-g1-ysr" id="eqK-vg-CZ3"/>
+                <outlet property="typeLabel" destination="sIT-e3-joA" id="Hn2-j7-SDu"/>
+            </connections>
+            <point key="canvasLocation" x="338.40579710144931" y="91.741071428571431"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="chevron.down.circle.fill" catalog="system" width="128" height="121"/>
+    </resources>
+</document>

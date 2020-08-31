@@ -40,6 +40,7 @@ struct WorkoutsManager {
     mutating func loadData() {
         do {
             let daysRequest: NSFetchRequest<Day> = Day.fetchRequest()
+            daysRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
             workoutDays = try context.fetch(daysRequest)
             
             let today = getStartOfDay(date: Date())
