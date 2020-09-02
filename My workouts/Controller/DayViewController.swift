@@ -69,6 +69,7 @@ extension DayViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.backgroundColor = UIColor.clear
     }
+    
     //MARK: - Section Header Constructor
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -76,15 +77,15 @@ extension DayViewController: UITableViewDelegate, UITableViewDataSource {
         let workouts = workoutDayManager.getWorkoutsBy(type: workoutType)
         var total = 0
         workouts.forEach { total += Int($0.repetition) }
-        
+
         let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: WorkoutSectionHeaderView.reuseIdentifier) as! WorkoutSectionHeaderView
-        
+
         view.typeLabel.text = workoutType.name
         view.totalLabel.text = String(format: "%4d", total)
-        
+
         view.toggleButton.tag = section
         view.toggleButton.addTarget(self, action: #selector(self.hideSection(sender:)), for: .touchUpInside)
-        
+
         return view
     }
     
@@ -108,15 +109,15 @@ extension DayViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: WorkoutSectionHeaderView.reuseIdentifier) as! WorkoutSectionHeaderView
-        view.customContentView.topAnchor.constraint(equalTo: view.topAnchor, constant: 2).isActive = true
-        view.customContentView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true
-        view.toggleButton.setImage(nil, for: .normal)
-        view.totalLabel.text = nil
-        view.typeLabel.text = nil
-        
-        return view
-    }
+//    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+//        let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: WorkoutSectionHeaderView.reuseIdentifier) as! WorkoutSectionHeaderView
+//        view.customContentView.topAnchor.constraint(equalTo: view.topAnchor, constant: 2).isActive = true
+//        view.customContentView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true
+//        view.toggleButton.setImage(nil, for: .normal)
+//        view.totalLabel.text = nil
+//        view.typeLabel.text = nil
+//        
+//        return view
+//    }
     
 }

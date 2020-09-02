@@ -49,6 +49,7 @@ extension MainViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         let addWorkoutView = createAddWorkoutView()
         
         let alert = UIAlertController(title: "Workout", message: "", preferredStyle: .alert)
+        
         alert.setValue(addWorkoutView, forKey: "contentViewController")
         let saveWorkoutAction = UIAlertAction(title: "Save", style: .default) { (action) in
             let selectedTypeRowIndex = self.typesPicker!.selectedRow(inComponent: 0)
@@ -72,16 +73,20 @@ extension MainViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         let vc = UIViewController()
         vc.preferredContentSize = CGSize(width: 250, height: 300)
         
-//        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 250, height: 20))
-//        label.text = "Type:"
-//        vc.view.addSubview(label)
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 250, height: 20))
+        label.text = "Type:"
+        label.textColor = .systemGray
+        label.textAlignment = .center
+        vc.view.addSubview(label)
         
         typesPicker = newPickerView(pickerFrame: CGRect(x: 0, y: 30, width: 250, height: 100), tag: 1)
         vc.view.addSubview(typesPicker!)
         
-//        let label2 = UILabel(frame: CGRect(x: 0, y: 150, width: 250, height: 20))
-//        label2.text = "Repetition:"
-//        vc.view.addSubview(label2)
+        let label2 = UILabel(frame: CGRect(x: 0, y: 150, width: 250, height: 20))
+        label2.text = "Repetition:"
+        label2.textColor = .systemGray
+        label2.textAlignment = .center
+        vc.view.addSubview(label2)
         
         repetitionPicker = newPickerView(pickerFrame: CGRect(x: 0, y: 180, width: 250, height: 100), tag: 2)
         vc.view.addSubview(repetitionPicker!)
