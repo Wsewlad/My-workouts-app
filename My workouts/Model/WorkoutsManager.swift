@@ -11,20 +11,20 @@ import CoreData
 
 struct WorkoutsManager {
     let maxRepetitionNumber = 100
-    let typeNames = ["PUSH-UPS", "JUMPING JACK", "WIDE ARM PUSH-UPS", "SQUATS", "SUMO SQUAT"]
+    let exerciseNames = ["PUSH-UPS", "JUMPING JACK", "WIDE ARM PUSH-UPS", "SQUATS", "SUMO SQUAT"]
     
     var workoutDays = [Day]()
-    var workoutTypes = [WorkoutType]()
+    var exercises = [Exercise]()
     var currentDay: Day?
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     
-    func newWorkout(typeNameIdx: Int, repetition: Int) {
+    func newWorkout(exerciseNameIdx: Int, repetition: Int) {
         let newWorkout = Workout(context: self.context)
         
         newWorkout.date = Date()
         newWorkout.day = currentDay!
-        newWorkout.type = getWorkoutTypeBy(name: typeNames[typeNameIdx])
+        newWorkout.exercise = getExerciseBy(name: exerciseNames[exerciseNameIdx])
         newWorkout.repetition = Int32(repetition)
         saveData()
     }
@@ -43,56 +43,80 @@ struct WorkoutsManager {
             daysRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
             workoutDays = try context.fetch(daysRequest)
             
-            let today = getStartOfDay(date: Date())
+            let today = Date().startOfDay
             daysRequest.predicate = NSPredicate(format: "date == %@", today as NSDate)
             let days = try context.fetch(daysRequest)
             if days.count >= 1 {
                 currentDay = days[0]
-                // Test log
-                print("Current day exists")
             } else {
                 currentDay = Day(context: self.context)
                 currentDay?.date = today
-                // Test log
-                print("Current day created")
             }
             
-            let typesRequest: NSFetchRequest<WorkoutType> = WorkoutType.fetchRequest()
-            workoutTypes = try context.fetch(typesRequest)
+            let exercisesRequest: NSFetchRequest<Exercise> = Exercise.fetchRequest()
+            exercises = try context.fetch(exercisesRequest)
         } catch {
             print("Failed to load workout data, \(error)")
         }
     }
     
-    func getWorkoutTypeBy(name: String) -> WorkoutType {
-        let request: NSFetchRequest<WorkoutType> = WorkoutType.fetchRequest()
+    func getDaysBy(month: Int) -> [Day] {
+        return workoutDays.filter { $0.date?.month == month }
+    }
+    
+    func getExerciseBy(name: String) -> Exercise {
+        let request: NSFetchRequest<Exercise> = Exercise.fetchRequest()
         request.predicate = NSPredicate(format: "name == %@", name)
         do {
-            let types = try context.fetch(request)
-            if types.count >= 1 {
+            let exercises = try context.fetch(request)
+            if exercises.count >= 1 {
                 // Test log
                 print("'\(name)' type exists")
-                return types[0]
+                return exercises[0]
             }
         } catch {
-            print("Failed to load workout type, \(error)")
+            print("Failed to load exercise, \(error)")
         }
-        let type = WorkoutType(context: self.context)
-        type.name = name
+        let exercise = Exercise(context: self.context)
+        exercise.name = name
         // Test log
-        print("'\(name)' type created")
-        return type
+        print("'\(name)' exercise created")
+        return exercise
     }
     
-    func getStartOfDay(date: Date) -> Date {
+    func getDayBy(date: Date) -> Day? {
+        return workoutDays.first { $0.date == date.startOfDay }
+    }
+}
+
+extension Date {
+    var startOfDay: Date {
         var calendar = Calendar.current
         calendar.timeZone = NSTimeZone.local
-        return calendar.startOfDay(for: date)
+        return calendar.startOfDay(for: self)
     }
     
-    func getFormatedDateString(date: Date, format: String = "dd.MM.yyyy") -> String {
+    var day: Int {
+        var calendar = Calendar.current
+        calendar.timeZone = NSTimeZone.local
+        return calendar.dateComponents([.day], from: self).day!
+    }
+    
+    var month: Int {
+        var calendar = Calendar.current
+        calendar.timeZone = NSTimeZone.local
+        return calendar.dateComponents([.month], from: self).month!
+    }
+    
+    var year: Int {
+        var calendar = Calendar.current
+        calendar.timeZone = NSTimeZone.local
+        return calendar.dateComponents([.year], from: self).year!
+    }
+    
+    func getFormatedDateString(format: String = "dd.MM.yyyy") -> String {
         let dateFormater = DateFormatter()
         dateFormater.dateFormat = format
-        return dateFormater.string(from: date)
+        return dateFormater.string(from: self)
     }
 }

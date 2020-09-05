@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19F101" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Day" representedClassName=".Day" syncable="YES" codeGenerationType="class">
         <attribute name="date" attributeType="Date" usesScalarValueType="NO"/>
         <relationship name="workouts" toMany="YES" deletionRule="Nullify" destinationEntity="Workout" inverseName="day" inverseEntity="Workout"/>
+    </entity>
+    <entity name="Exercise" representedClassName=".Exercise" syncable="YES" codeGenerationType="class">
+        <attribute name="name" attributeType="String"/>
+        <relationship name="workouts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Workout" inverseName="exercise" inverseEntity="Workout"/>
     </entity>
     <entity name="Workout" representedClassName=".Workout" syncable="YES" codeGenerationType="class">
         <attribute name="date" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="repetition" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="day" maxCount="1" deletionRule="Nullify" destinationEntity="Day" inverseName="workouts" inverseEntity="Day"/>
-        <relationship name="type" maxCount="1" deletionRule="Nullify" destinationEntity="WorkoutType" inverseName="workouts" inverseEntity="WorkoutType"/>
-    </entity>
-    <entity name="WorkoutType" representedClassName=".WorkoutType" syncable="YES" codeGenerationType="class">
-        <attribute name="name" attributeType="String"/>
-        <relationship name="workouts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Workout" inverseName="type" inverseEntity="Workout"/>
+        <relationship name="exercise" maxCount="1" deletionRule="Nullify" destinationEntity="Exercise" inverseName="workouts" inverseEntity="Exercise"/>
     </entity>
     <elements>
         <element name="Day" positionX="-3309.76171875" positionY="-940.2890625" width="128" height="73"/>
+        <element name="Exercise" positionX="-2896.09375" positionY="-953.65625" width="128" height="28"/>
         <element name="Workout" positionX="-3101.72265625" positionY="-1081.26171875" width="128" height="103"/>
-        <element name="WorkoutType" positionX="-2896.09375" positionY="-953.65625" width="128" height="73"/>
     </elements>
 </model>

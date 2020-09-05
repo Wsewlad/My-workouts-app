@@ -8,33 +8,40 @@
 
 import UIKit
 import CoreData
+import FSCalendar
 
 class MainViewController: UIViewController {
-
-    var workoutsManager = WorkoutsManager()
-    var typesPicker: UIPickerView?
-    var repetitionPicker: UIPickerView?
     
-    
+    @IBOutlet weak var exercisePicker: UIPickerView!
+    @IBOutlet weak var repetitionPicker: UIPickerView!
+    @IBOutlet weak var calendar: FSCalendar!
     @IBOutlet weak var totalWorkoutDaysLabel: UILabel!
-    @IBOutlet weak var workoutDaysTableView: UITableView!
+    
+        var workoutsManager = WorkoutsManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
+        calendar.placeholderType = .fillHeadTail
         loadData()
     }
     
     //MARK: - CoreData Methods
     func saveData() {
         workoutsManager.saveData()
-        workoutDaysTableView.reloadData()
+        calendar.reloadData()
     }
     
     func loadData() {
         workoutsManager.loadData()
-        workoutDaysTableView.reloadData()
-        totalWorkoutDaysLabel.text = "Total workout days: \(workoutsManager.workoutDays.count)"
+        calendar.reloadData()
+        updateTotal()
+        calendar.setCurrentPage(Date(), animated: true)
+    }
+    
+    func updateTotal() {
+        let workoutDaysInMonth = workoutsManager.getDaysBy(month: calendar.currentPage.month)
+        totalWorkoutDaysLabel.text = "Workout days: \(workoutDaysInMonth.count)"
     }
 }
 
@@ -52,10 +59,10 @@ extension MainViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         
         alert.setValue(addWorkoutView, forKey: "contentViewController")
         let saveWorkoutAction = UIAlertAction(title: "Save", style: .default) { (action) in
-            let selectedTypeRowIndex = self.typesPicker!.selectedRow(inComponent: 0)
+            let selectedExerciseRowIndex = self.exercisePicker!.selectedRow(inComponent: 0)
             let repetition = self.repetitionPicker!.selectedRow(inComponent: 0) + 1
             
-            self.workoutsManager.newWorkout(typeNameIdx: selectedTypeRowIndex, repetition: repetition)
+            self.workoutsManager.newWorkout(exerciseNameIdx: selectedExerciseRowIndex, repetition: repetition)
             self.loadData()
         }
         alert.addAction(saveWorkoutAction)
@@ -74,13 +81,13 @@ extension MainViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         vc.preferredContentSize = CGSize(width: 250, height: 300)
         
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: 250, height: 20))
-        label.text = "Type:"
+        label.text = "Exercise:"
         label.textColor = .systemGray
         label.textAlignment = .center
         vc.view.addSubview(label)
         
-        typesPicker = newPickerView(pickerFrame: CGRect(x: 0, y: 30, width: 250, height: 100), tag: 1)
-        vc.view.addSubview(typesPicker!)
+        exercisePicker = newPickerView(pickerFrame: CGRect(x: 0, y: 30, width: 250, height: 100), tag: 1)
+        vc.view.addSubview(exercisePicker!)
         
         let label2 = UILabel(frame: CGRect(x: 0, y: 150, width: 250, height: 20))
         label2.text = "Repetition:"
@@ -105,7 +112,7 @@ extension MainViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if pickerView.tag == 1 {
-            if workoutsManager.typeNames[row] == "PUSH-UPS" {
+            if workoutsManager.exerciseNames[row] == "PUSH-UPS" {
                 repetitionPicker?.selectRow(29, inComponent: 0, animated: true)
             }
         }
@@ -116,38 +123,69 @@ extension MainViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return pickerView.tag == 1 ? workoutsManager.typeNames.count : workoutsManager.maxRepetitionNumber
+        return pickerView.tag == 1 ? workoutsManager.exerciseNames.count : workoutsManager.maxRepetitionNumber
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return pickerView.tag == 1 ? workoutsManager.typeNames[row] : String(row + 1)
+        return pickerView.tag == 1 ? workoutsManager.exerciseNames[row] : String(row + 1)
     }
     
     
 }
 
-//MARK: - Table View DataSource Methods
-extension MainViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return workoutsManager.workoutDays.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: K.dayCellIdentifier, for: indexPath)
-        cell.textLabel?.text = workoutsManager.getFormatedDateString(date: workoutsManager.workoutDays[indexPath.row].date!)
-        return cell
-    }
+
+//MARK: - FSCalendar DataSource and Delegate
+class FSCellTapGestureRecognizer: UITapGestureRecognizer {
+    var date: Date?
 }
 
-//MARK: - Table View Delegate Methods
-extension MainViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: K.dayDetailSegueIdentifier, sender: self)
+extension MainViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
+    
+//    func calendar(_ calendar: FSCalendar, imageFor date: Date) -> UIImage? {
+//        if workoutsManager.getDayBy(date: date) != nil {
+//            return UIImage(systemName: "checkmark")
+//        }
+//        return nil
+//    }
+    
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, fillDefaultColorFor date: Date) -> UIColor? {
+        if workoutsManager.getDayBy(date: date) != nil {
+            return UIColor.lightGray
+        }
+        return nil
+    }
+    
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleDefaultColorFor date: Date) -> UIColor? {
+        if workoutsManager.getDayBy(date: date) != nil {
+            return UIColor.white
+        }
+        return nil
+    }
+    
+    func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
+        updateTotal()
+    }
+    
+    func calendar(_ calendar: FSCalendar, willDisplay cell: FSCalendarCell, for date: Date, at monthPosition: FSCalendarMonthPosition) {
+        let tap = FSCellTapGestureRecognizer(target: self, action: #selector(self.openDayDetails))
+        tap.date = date
+        
+        if !cell.isPlaceholder && workoutsManager.getDayBy(date: date) != nil {
+            cell.isUserInteractionEnabled = true
+            cell.addGestureRecognizer(tap)
+        } else {
+            cell.gestureRecognizers?.removeAll()
+        }
+    }
+    
+    @objc func openDayDetails(sender: FSCellTapGestureRecognizer) {
+        performSegue(withIdentifier: K.dayDetailSegueIdentifier, sender: sender)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let destinationVC = segue.destination as! DayViewController
-        destinationVC.day = workoutsManager.workoutDays[workoutDaysTableView.indexPathForSelectedRow!.row]
+        if let tapGesture = sender as? FSCellTapGestureRecognizer {
+            let destinationVC = segue.destination as! DayViewController
+            destinationVC.day = workoutsManager.getDayBy(date: tapGesture.date!)!
+        }
     }
 }
-

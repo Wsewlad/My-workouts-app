@@ -16,13 +16,10 @@ class WorkoutSectionHeaderView: UITableViewHeaderFooterView {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        customContentView.layer.cornerRadius = 10
-        customContentView.layer.masksToBounds = true
     }
     
     @IBOutlet weak var customContentView: UIView!
-    @IBOutlet weak var typeLabel: UILabel!
+    @IBOutlet weak var exerciseLabel: UILabel!
     @IBOutlet weak var totalLabel: UILabel!
-    @IBOutlet weak var toggleButton: UIButton!
     
 }

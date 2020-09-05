@@ -15,9 +15,7 @@ struct WorkoutDayManager {
     
     var day: Day?
     var workouts = [Workout]()
-    var types = [WorkoutType]()
-    
-    var hiddenSections = Set<Int>()
+    var exercises = [Exercise]()
     
     mutating func loadData() {
         do {
@@ -26,21 +24,18 @@ struct WorkoutDayManager {
             workoutsRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
             workouts = try context.fetch(workoutsRequest)
             
-            let typesRequest: NSFetchRequest<WorkoutType> = WorkoutType.fetchRequest()
-            typesRequest.predicate = NSPredicate(format: "ANY workouts IN %@", workouts)
-            types = try context.fetch(typesRequest)
-            types = types.sorted { getWorkoutsBy(type: $0)[0].date! > getWorkoutsBy(type: $1)[0].date! }
-            for section in 0..<types.count {
-                hiddenSections.insert(section)
-            }
+            let exercisesRequest: NSFetchRequest<Exercise> = Exercise.fetchRequest()
+            exercisesRequest.predicate = NSPredicate(format: "ANY workouts IN %@", workouts)
+            exercises = try context.fetch(exercisesRequest)
+            exercises = exercises.sorted { getWorkoutsBy(exercise: $0)[0].date! > getWorkoutsBy(exercise: $1)[0].date! }
         } catch {
             print("Failed to load workout data, \(error)")
         }
     }
     
-    func getWorkoutsBy(type: WorkoutType) -> [Workout] {
+    func getWorkoutsBy(exercise: Exercise) -> [Workout] {
             let nsWorkouts = workouts as NSArray
-            let predicate = NSPredicate(format: "type == %@", type)
+            let predicate = NSPredicate(format: "exercise == %@", exercise)
             return nsWorkouts.filtered(using: predicate) as! [Workout]
     }
 }

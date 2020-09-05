@@ -15,28 +15,59 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleAspectFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Obe-By-Olj">
+                            <stackView opaque="NO" contentMode="scaleAspectFill" axis="vertical" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="Obe-By-Olj">
                                 <rect key="frame" x="0.0" y="88" width="414" height="808"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uAM-ZU-b8Q">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="70"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="Mam-Tb-6Bg" userLabel="Label Stack View">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total workout days: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dGc-To-OAh">
-                                                <rect key="frame" x="73.5" y="18.5" width="267.5" height="33"/>
-                                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="28"/>
-                                                <nil key="textColor"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Exercise:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gI6-hG-Usd">
+                                                <rect key="frame" x="0.0" y="0.0" width="264" height="50"/>
+                                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="21"/>
+                                                <color key="textColor" systemColor="separatorColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Repetition:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hMY-PQ-5CK">
+                                                <rect key="frame" x="264" y="0.0" width="150" height="50"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="150" id="kOa-6f-wzX"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="21"/>
+                                                <color key="textColor" systemColor="separatorColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="70" id="FMi-Ff-JJn"/>
-                                            <constraint firstItem="dGc-To-OAh" firstAttribute="centerY" secondItem="uAM-ZU-b8Q" secondAttribute="centerY" id="WRg-83-O6D"/>
-                                            <constraint firstItem="dGc-To-OAh" firstAttribute="centerX" secondItem="uAM-ZU-b8Q" secondAttribute="centerX" id="jSr-95-bcQ"/>
+                                            <constraint firstAttribute="height" constant="50" id="kZs-WV-jjs"/>
                                         </constraints>
-                                    </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x25-A7-esl">
-                                        <rect key="frame" x="0.0" y="80" width="414" height="150"/>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="Zyb-us-ev7" userLabel="Picker Stack View">
+                                        <rect key="frame" x="0.0" y="51" width="414" height="150"/>
+                                        <subviews>
+                                            <pickerView tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BNW-Vr-8jS" userLabel="Exercise Picker View">
+                                                <rect key="frame" x="0.0" y="0.0" width="264" height="150"/>
+                                                <connections>
+                                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="BDO-1u-q98"/>
+                                                    <outlet property="delegate" destination="BYZ-38-t0r" id="2N4-RL-8Mr"/>
+                                                </connections>
+                                            </pickerView>
+                                            <pickerView tag="2" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TKL-Kv-1Zr" userLabel="Repetition Picker View">
+                                                <rect key="frame" x="264" y="0.0" width="150" height="150"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="150" id="09n-HO-xxQ"/>
+                                                </constraints>
+                                                <connections>
+                                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="CbJ-qB-sKN"/>
+                                                    <outlet property="delegate" destination="BYZ-38-t0r" id="yLc-h4-IQG"/>
+                                                </connections>
+                                            </pickerView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="150" id="L6K-JN-oxB"/>
+                                        </constraints>
+                                    </stackView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x25-A7-esl" userLabel="Add Workout View">
+                                        <rect key="frame" x="0.0" y="202" width="414" height="150"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zJ7-JB-ATK">
                                                 <rect key="frame" x="157" y="27" width="100" height="96"/>
@@ -61,24 +92,58 @@
                                             <constraint firstAttribute="height" constant="150" id="zue-xY-Jq4"/>
                                         </constraints>
                                     </view>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="yJF-Y6-RDx">
-                                        <rect key="frame" x="0.0" y="240" width="414" height="568"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uAM-ZU-b8Q" userLabel="Total View">
+                                        <rect key="frame" x="0.0" y="353" width="414" height="50"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Workout days: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dGc-To-OAh">
+                                                <rect key="frame" x="105.5" y="8.5" width="203.5" height="33"/>
+                                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="28"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                        <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="WorkoutDayCell" id="2xV-PX-eoG">
-                                                <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
-                                                <autoresizingMask key="autoresizingMask"/>
-                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="2xV-PX-eoG" id="oEv-Ii-QTx">
-                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                </tableViewCellContentView>
-                                            </tableViewCell>
-                                        </prototypes>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="FMi-Ff-JJn"/>
+                                            <constraint firstItem="dGc-To-OAh" firstAttribute="centerY" secondItem="uAM-ZU-b8Q" secondAttribute="centerY" id="WRg-83-O6D"/>
+                                            <constraint firstItem="dGc-To-OAh" firstAttribute="centerX" secondItem="uAM-ZU-b8Q" secondAttribute="centerX" id="jSr-95-bcQ"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d2m-Wf-qWI" customClass="FSCalendar">
+                                        <rect key="frame" x="0.0" y="404" width="414" height="404"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="firstWeekday">
+                                                <integer key="value" value="2"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="allowsMultipleSelection" value="NO"/>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="allowsSelection" value="NO"/>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="headerTitleColor">
+                                                <color key="value" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="selectionColor">
+                                                <color key="value" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="fakedSelectedDay">
+                                                <integer key="value" value="4"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="titleDefaultColor">
+                                                <color key="value" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="pagingEnabled" value="YES"/>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="scrollEnabled" value="YES"/>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="weekdayTextColor">
+                                                <color key="value" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="todayColor">
+                                                <color key="value" red="0.0" green="0.56284224989999998" blue="0.31881666180000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                         <connections>
-                                            <outlet property="dataSource" destination="BYZ-38-t0r" id="KZm-ho-1ZV"/>
-                                            <outlet property="delegate" destination="BYZ-38-t0r" id="PZb-B0-dnN"/>
+                                            <outlet property="dataSource" destination="BYZ-38-t0r" id="0l6-F8-fQe"/>
+                                            <outlet property="delegate" destination="BYZ-38-t0r" id="ebV-fP-hJe"/>
                                         </connections>
-                                    </tableView>
+                                    </view>
                                 </subviews>
                             </stackView>
                         </subviews>
@@ -93,9 +158,11 @@
                     </view>
                     <navigationItem key="navigationItem" title="My workouts" id="JTC-ws-4If"/>
                     <connections>
+                        <outlet property="calendar" destination="d2m-Wf-qWI" id="msl-vZ-pCO"/>
+                        <outlet property="exercisePicker" destination="BNW-Vr-8jS" id="DXW-53-4v7"/>
+                        <outlet property="repetitionPicker" destination="TKL-Kv-1Zr" id="amK-cc-YhT"/>
                         <outlet property="totalWorkoutDaysLabel" destination="dGc-To-OAh" id="LSs-O3-0Na"/>
-                        <outlet property="workoutDaysTableView" destination="yJF-Y6-RDx" id="QdX-Nq-blc"/>
-                        <segue destination="2zr-sA-gdZ" kind="show" identifier="WorkoutDayDetailSegue" id="80u-Kh-YoP"/>
+                        <segue destination="2zr-sA-gdZ" kind="presentation" identifier="WorkoutDayDetailSegue" id="80u-Kh-YoP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -107,40 +174,40 @@
             <objects>
                 <viewController id="2zr-sA-gdZ" customClass="DayViewController" customModule="My_workouts" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="oqH-1K-4Sr">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="o2O-O4-J0F">
-                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Q7I-93-cho">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="WorkoutCell" id="nco-GV-noo">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="K3H-S3-UnF" customClass="WorkoutViewCell" customModule="My_workouts" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="nco-GV-noo" id="YD2-wC-EJl" customClass="WorkoutViewCell" customModule="My_workouts" customModuleProvider="target">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="K3H-S3-UnF" id="xyG-2J-19D">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
-                                    <outlet property="dataSource" destination="2zr-sA-gdZ" id="BCe-kS-kGJ"/>
-                                    <outlet property="delegate" destination="2zr-sA-gdZ" id="6LV-0Q-sjL"/>
+                                    <outlet property="dataSource" destination="2zr-sA-gdZ" id="Pit-UF-RBB"/>
+                                    <outlet property="delegate" destination="2zr-sA-gdZ" id="O5y-KZ-8wj"/>
                                 </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="eX0-nQ-dsd" firstAttribute="bottom" secondItem="o2O-O4-J0F" secondAttribute="bottom" id="2rw-o0-KNI"/>
-                            <constraint firstItem="o2O-O4-J0F" firstAttribute="leading" secondItem="eX0-nQ-dsd" secondAttribute="leading" id="69J-PP-Ddb"/>
-                            <constraint firstItem="eX0-nQ-dsd" firstAttribute="trailing" secondItem="o2O-O4-J0F" secondAttribute="trailing" id="Ocg-gY-eqi"/>
-                            <constraint firstItem="o2O-O4-J0F" firstAttribute="top" secondItem="eX0-nQ-dsd" secondAttribute="top" id="dgr-N8-Uc2"/>
+                            <constraint firstItem="Q7I-93-cho" firstAttribute="top" secondItem="eX0-nQ-dsd" secondAttribute="top" id="85U-du-hSd"/>
+                            <constraint firstItem="eX0-nQ-dsd" firstAttribute="bottom" secondItem="Q7I-93-cho" secondAttribute="bottom" id="9L1-pQ-xb0"/>
+                            <constraint firstItem="Q7I-93-cho" firstAttribute="leading" secondItem="eX0-nQ-dsd" secondAttribute="leading" id="BgN-By-lwb"/>
+                            <constraint firstItem="eX0-nQ-dsd" firstAttribute="trailing" secondItem="Q7I-93-cho" secondAttribute="trailing" id="Duy-Q1-i12"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="eX0-nQ-dsd"/>
                     </view>
                     <navigationItem key="navigationItem" title="Day" id="1R4-ir-IMQ"/>
                     <connections>
-                        <outlet property="dayDetailsTableView" destination="o2O-O4-J0F" id="o6Q-H7-Ixq"/>
+                        <outlet property="dayDetailsTableView" destination="Q7I-93-cho" id="j6I-i4-0lz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Ax-xJ-0vN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

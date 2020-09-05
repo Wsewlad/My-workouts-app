@@ -17,7 +17,7 @@ class DayViewController: UIViewController {
     
     var day: Day? {
         didSet {
-            title = dataModel.getFormatedDateString(date: day!.date!)
+            title = day!.date!.getFormatedDateString()
             workoutDayManager.day = day
             workoutDayManager.loadData()
         }
@@ -27,10 +27,8 @@ class DayViewController: UIViewController {
         super.viewDidLoad()
         self.dayDetailsTableView.register(WorkoutViewCell.nib, forCellReuseIdentifier: WorkoutViewCell.reuseIdentifier)
         self.dayDetailsTableView.register(WorkoutSectionHeaderView.nib, forHeaderFooterViewReuseIdentifier: WorkoutSectionHeaderView.reuseIdentifier)
-        self.dayDetailsTableView.sectionHeaderHeight = 100
-        self.dayDetailsTableView.backgroundColor = #colorLiteral(red: 0.9215686275, green: 0.9216203094, blue: 0.9214589, alpha: 1)
-        self.dayDetailsTableView.separatorStyle = .none
-        self.dayDetailsTableView.sectionFooterHeight = 30
+        self.dayDetailsTableView.sectionHeaderHeight = 50
+        self.dayDetailsTableView.tableFooterView = UIView()
     }
 }
 
@@ -39,20 +37,17 @@ class DayViewController: UIViewController {
 extension DayViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return workoutDayManager.types.count
+        return workoutDayManager.exercises.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if self.workoutDayManager.hiddenSections.contains(section) {
-            return 0
-        }
-        let workoutsWithCurrentType = workoutDayManager.getWorkoutsBy(type: workoutDayManager.types[section])
+        let workoutsWithCurrentType = workoutDayManager.getWorkoutsBy(exercise: workoutDayManager.exercises[section])
         return workoutsWithCurrentType.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: WorkoutViewCell.reuseIdentifier, for: indexPath)
-        let workoutsWithCurrentType = workoutDayManager.getWorkoutsBy(type: workoutDayManager.types[indexPath.section])
+        let workoutsWithCurrentType = workoutDayManager.getWorkoutsBy(exercise: workoutDayManager.exercises[indexPath.section])
         let workoutDate = workoutsWithCurrentType[indexPath.row].date
         let workoutRepetition = workoutsWithCurrentType[indexPath.row].repetition
         let workoutIteration = workoutsWithCurrentType.count - indexPath.row
@@ -60,7 +55,7 @@ extension DayViewController: UITableViewDelegate, UITableViewDataSource {
         if let wCell = cell as? WorkoutViewCell {
             wCell.iterationLabel.text = String(format: "%3d", workoutIteration)
             wCell.repetitionLabel.text = String(format: "%4d", workoutRepetition)
-            wCell.timeLabel.text = dataModel.getFormatedDateString(date: workoutDate!, format: "HH:mm a")
+            wCell.timeLabel.text = workoutDate!.getFormatedDateString(format: "HH:mm a")
             return wCell
         }
         return cell
@@ -70,54 +65,18 @@ extension DayViewController: UITableViewDelegate, UITableViewDataSource {
         cell.backgroundColor = UIColor.clear
     }
     
-    //MARK: - Section Header Constructor
+    //MARK: - Section Header
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let workoutType = workoutDayManager.types[section]
-        let workouts = workoutDayManager.getWorkoutsBy(type: workoutType)
+        let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: WorkoutSectionHeaderView.reuseIdentifier) as! WorkoutSectionHeaderView
+        
+        let exercise = workoutDayManager.exercises[section]
+        let workouts = workoutDayManager.getWorkoutsBy(exercise: exercise)
         var total = 0
         workouts.forEach { total += Int($0.repetition) }
-
-        let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: WorkoutSectionHeaderView.reuseIdentifier) as! WorkoutSectionHeaderView
-
-        view.typeLabel.text = workoutType.name
+        
+        view.exerciseLabel.text = exercise.name
         view.totalLabel.text = String(format: "%4d", total)
-
-        view.toggleButton.tag = section
-        view.toggleButton.addTarget(self, action: #selector(self.hideSection(sender:)), for: .touchUpInside)
-
         return view
     }
-    
-    @objc private func hideSection(sender: UIButton) {
-        let section = sender.tag
-        func indexPathsForSection() -> [IndexPath] {
-            var indexPaths = [IndexPath]()
-            for row in 0 ..< workoutDayManager.getWorkoutsBy(type: workoutDayManager.types[section]).count {
-                indexPaths.append(IndexPath(row: row, section: section))
-            }
-            return indexPaths
-        }
-        if self.workoutDayManager.hiddenSections.contains(section) {
-            self.workoutDayManager.hiddenSections.remove(section)
-            self.dayDetailsTableView.insertRows(at: indexPathsForSection(), with: .fade)
-            sender.setImage(UIImage(systemName: "chevron.up.circle.fill"), for: .normal)
-        } else {
-            self.workoutDayManager.hiddenSections.insert(section)
-            self.dayDetailsTableView.deleteRows(at: indexPathsForSection(), with: .fade)
-            sender.setImage(UIImage(systemName: "chevron.down.circle.fill"), for: .normal)
-        }
-    }
-    
-//    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-//        let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: WorkoutSectionHeaderView.reuseIdentifier) as! WorkoutSectionHeaderView
-//        view.customContentView.topAnchor.constraint(equalTo: view.topAnchor, constant: 2).isActive = true
-//        view.customContentView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true
-//        view.toggleButton.setImage(nil, for: .normal)
-//        view.totalLabel.text = nil
-//        view.typeLabel.text = nil
-//        
-//        return view
-//    }
-    
 }
