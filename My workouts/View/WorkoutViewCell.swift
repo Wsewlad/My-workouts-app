@@ -20,6 +20,8 @@ class WorkoutViewCell: UITableViewCell {
         return UINib(nibName: String(describing: self), bundle: nil)
     }
     
+    var workoutIdx: Int?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         mainView.layer.cornerRadius = 10

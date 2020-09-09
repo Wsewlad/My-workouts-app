@@ -19,11 +19,11 @@ struct WorkoutsManager {
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     
-    func newWorkout(exerciseNameIdx: Int, repetition: Int) {
+    func newWorkout(exerciseNameIdx: Int, repetition: Int, date: Date) {
         let newWorkout = Workout(context: self.context)
         
-        newWorkout.date = Date()
-        newWorkout.day = currentDay!
+        newWorkout.date = date
+        newWorkout.day = getOrCreateDayBy(date: date)
         newWorkout.exercise = getExerciseBy(name: exerciseNames[exerciseNameIdx])
         newWorkout.repetition = Int32(repetition)
         saveData()
@@ -43,21 +43,29 @@ struct WorkoutsManager {
             daysRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
             workoutDays = try context.fetch(daysRequest)
             
-            let today = Date().startOfDay
-            daysRequest.predicate = NSPredicate(format: "date == %@", today as NSDate)
-            let days = try context.fetch(daysRequest)
-            if days.count >= 1 {
-                currentDay = days[0]
-            } else {
-                currentDay = Day(context: self.context)
-                currentDay?.date = today
-            }
-            
             let exercisesRequest: NSFetchRequest<Exercise> = Exercise.fetchRequest()
             exercises = try context.fetch(exercisesRequest)
         } catch {
             print("Failed to load workout data, \(error)")
         }
+    }
+    
+    func getOrCreateDayBy(date: Date) -> Day {
+        let day: Day?
+        let startOfDay = date.startOfDay
+        do {
+            let daysRequest: NSFetchRequest<Day> = Day.fetchRequest()
+            daysRequest.predicate = NSPredicate(format: "date == %@", startOfDay as NSDate)
+            let days = try context.fetch(daysRequest)
+            if days.count > 0 {
+                return days[0]
+            }
+        } catch {
+            print("Failed to load day, \(error)")
+        }
+        day = Day(context: self.context)
+        day?.date = startOfDay
+        return day!
     }
     
     func getDaysBy(month: Int) -> [Day] {
@@ -70,8 +78,6 @@ struct WorkoutsManager {
         do {
             let exercises = try context.fetch(request)
             if exercises.count >= 1 {
-                // Test log
-                print("'\(name)' type exists")
                 return exercises[0]
             }
         } catch {
@@ -79,8 +85,6 @@ struct WorkoutsManager {
         }
         let exercise = Exercise(context: self.context)
         exercise.name = name
-        // Test log
-        print("'\(name)' exercise created")
         return exercise
     }
     

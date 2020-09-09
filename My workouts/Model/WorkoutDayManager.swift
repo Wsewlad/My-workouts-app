@@ -33,6 +33,32 @@ struct WorkoutDayManager {
         }
     }
     
+    func saveData() {
+        do {
+            try context.save()
+        } catch {
+            print("Failed saving workout data, \(error)")
+        }
+    }
+    
+    mutating func deleteWorkout(with workoutIdx: Int) {
+        let workout = workouts[workoutIdx]
+        let exercise = workout.exercise!
+        
+        context.delete(workout)
+        workouts.remove(at: workoutIdx)
+        
+        if getWorkoutsBy(exercise: exercise).count == 0 {
+            if let exIdx = exercises.firstIndex(of: exercise) {
+                exercises.remove(at: exIdx)
+            }
+        }
+        if workouts.count == 0 {
+            context.delete(day!)
+        }
+        saveData()
+    }
+    
     func getWorkoutsBy(exercise: Exercise) -> [Workout] {
             let nsWorkouts = workouts as NSArray
             let predicate = NSPredicate(format: "exercise == %@", exercise)

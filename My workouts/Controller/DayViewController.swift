@@ -14,6 +14,7 @@ class DayViewController: UIViewController {
     
     var dataModel = WorkoutsManager()
     var workoutDayManager = WorkoutDayManager()
+    var mainViewController: MainViewController?
     
     var day: Day? {
         didSet {
@@ -27,8 +28,13 @@ class DayViewController: UIViewController {
         super.viewDidLoad()
         self.dayDetailsTableView.register(WorkoutViewCell.nib, forCellReuseIdentifier: WorkoutViewCell.reuseIdentifier)
         self.dayDetailsTableView.register(WorkoutSectionHeaderView.nib, forHeaderFooterViewReuseIdentifier: WorkoutSectionHeaderView.reuseIdentifier)
+        self.dayDetailsTableView.tableHeaderView = UIView()
         self.dayDetailsTableView.sectionHeaderHeight = 50
         self.dayDetailsTableView.tableFooterView = UIView()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        mainViewController?.calendar.reloadData()
     }
 }
 
@@ -48,11 +54,13 @@ extension DayViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: WorkoutViewCell.reuseIdentifier, for: indexPath)
         let workoutsWithCurrentType = workoutDayManager.getWorkoutsBy(exercise: workoutDayManager.exercises[indexPath.section])
-        let workoutDate = workoutsWithCurrentType[indexPath.row].date
-        let workoutRepetition = workoutsWithCurrentType[indexPath.row].repetition
+        let workout = workoutsWithCurrentType[indexPath.row]
+        let workoutDate = workout.date
+        let workoutRepetition = workout.repetition
         let workoutIteration = workoutsWithCurrentType.count - indexPath.row
         
         if let wCell = cell as? WorkoutViewCell {
+            wCell.workoutIdx = workoutDayManager.workouts.firstIndex(of: workout)
             wCell.iterationLabel.text = String(format: "%3d", workoutIteration)
             wCell.repetitionLabel.text = String(format: "%4d", workoutRepetition)
             wCell.timeLabel.text = workoutDate!.getFormatedDateString(format: "HH:mm a")
@@ -63,6 +71,24 @@ extension DayViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.backgroundColor = UIColor.clear
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let cell = tableView.cellForRow(at: indexPath) as! WorkoutViewCell
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { (action, view, handler) in
+            self.workoutDayManager.deleteWorkout(with: cell.workoutIdx!)
+            self.dayDetailsTableView.reloadData()
+        }
+        deleteAction.backgroundColor = .systemGray
+        
+        let updateAction = UIContextualAction(style: .normal, title: "Update") { (action, view, handler) in
+            print("Update")
+        }
+        updateAction.backgroundColor = .systemGray2
+        
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction, updateAction])
+        configuration.performsFirstActionWithFullSwipe = false
+        return configuration
     }
     
     //MARK: - Section Header
@@ -79,4 +105,6 @@ extension DayViewController: UITableViewDelegate, UITableViewDataSource {
         view.totalLabel.text = String(format: "%4d", total)
         return view
     }
+    
+
 }
