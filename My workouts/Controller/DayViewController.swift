@@ -15,6 +15,7 @@ class DayViewController: UIViewController {
     var dataModel = WorkoutsManager()
     var workoutDayManager = WorkoutDayManager()
     var mainViewController: MainViewController?
+    var repetitionPicker: UIPickerView?
     
     var day: Day? {
         didSet {
@@ -35,6 +36,7 @@ class DayViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         mainViewController?.calendar.reloadData()
+        mainViewController?.updateTotal()
     }
 }
 
@@ -55,15 +57,11 @@ extension DayViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: WorkoutViewCell.reuseIdentifier, for: indexPath)
         let workoutsWithCurrentType = workoutDayManager.getWorkoutsBy(exercise: workoutDayManager.exercises[indexPath.section])
         let workout = workoutsWithCurrentType[indexPath.row]
-        let workoutDate = workout.date
-        let workoutRepetition = workout.repetition
         let workoutIteration = workoutsWithCurrentType.count - indexPath.row
         
         if let wCell = cell as? WorkoutViewCell {
-            wCell.workoutIdx = workoutDayManager.workouts.firstIndex(of: workout)
             wCell.iterationLabel.text = String(format: "%3d", workoutIteration)
-            wCell.repetitionLabel.text = String(format: "%4d", workoutRepetition)
-            wCell.timeLabel.text = workoutDate!.getFormatedDateString(format: "HH:mm a")
+            wCell.workout = workout
             return wCell
         }
         return cell
@@ -73,22 +71,59 @@ extension DayViewController: UITableViewDelegate, UITableViewDataSource {
         cell.backgroundColor = UIColor.clear
     }
     
+    //MARK: - Add Swipe Actions
+    
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let cell = tableView.cellForRow(at: indexPath) as! WorkoutViewCell
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { (action, view, handler) in
-            self.workoutDayManager.deleteWorkout(with: cell.workoutIdx!)
-            self.dayDetailsTableView.reloadData()
-        }
-        deleteAction.backgroundColor = .systemGray
         
-        let updateAction = UIContextualAction(style: .normal, title: "Update") { (action, view, handler) in
-            print("Update")
-        }
-        updateAction.backgroundColor = .systemGray2
+        let deleteAction = createDeleteWorkoutAction(workout: cell.workout!)
+        let updateAction = createUpdateWorkoutAction(workout: cell.workout!)
         
         let configuration = UISwipeActionsConfiguration(actions: [deleteAction, updateAction])
         configuration.performsFirstActionWithFullSwipe = false
         return configuration
+    }
+    
+    //MARK: - Create Swipe Actions
+    
+    func createDeleteWorkoutAction(workout: Workout) -> UIContextualAction {
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { (action, view, handler) in
+            self.workoutDayManager.delete(workout: workout)
+            self.dayDetailsTableView.reloadData()
+        }
+        deleteAction.backgroundColor = .systemGray
+        return deleteAction
+    }
+    
+    func createUpdateWorkoutAction(workout: Workout) -> UIContextualAction {
+        let updateAction = UIContextualAction(style: .normal, title: "Update") { (action, view, handler) in
+            let updateView = self.createUpdateView(workout: workout)
+            
+            let alert = UIAlertController(title: "Update", message: "", preferredStyle: .alert)
+            alert.setValue(updateView, forKey: "contentViewController")
+            
+            let action = UIAlertAction(title: "Ok", style: .default) { (action) in
+                let selectedRepetition = self.repetitionPicker!.selectedRow(inComponent: 0) + 1
+                workout.repetition = Int32(selectedRepetition)
+                self.workoutDayManager.saveData()
+                //DispatchQueue.main.async {
+                    self.dayDetailsTableView.reloadData()
+                //}
+            }
+            action.setValue(UIColor.label, forKey: "titleTextColor")
+            alert.addAction(action)
+            
+            self.present(alert, animated: true, completion: {
+                alert.view.superview?.isUserInteractionEnabled = true
+                alert.view.superview?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.dismissOnTapOutside)))
+            })
+        }
+        updateAction.backgroundColor = .systemGray2
+        return updateAction
+    }
+    
+    @objc func dismissOnTapOutside(){
+       self.dismiss(animated: true, completion: nil)
     }
     
     //MARK: - Section Header
@@ -105,6 +140,36 @@ extension DayViewController: UITableViewDelegate, UITableViewDataSource {
         view.totalLabel.text = String(format: "%4d", total)
         return view
     }
-    
+}
 
+extension DayViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    func createUpdateView(workout: Workout) -> UIViewController {
+        let vc = UIViewController()
+        vc.preferredContentSize = CGSize(width: 250, height: 150)
+        
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 250, height: 50))
+        label.text = "\(workout.exercise!.name!) at \(workout.date!.getFormatedDateString(format: "HH:mm a"))"
+        label.textAlignment = .center
+        vc.view.addSubview(label)
+        
+        let prevRepetition = Int(workout.repetition)
+        self.repetitionPicker = UIPickerView(frame: CGRect(x: 0, y: 50, width: 250, height: 100))
+        self.repetitionPicker?.dataSource = self
+        self.repetitionPicker?.delegate = self
+        self.repetitionPicker?.selectRow(prevRepetition - 1, inComponent: 0, animated: true)
+        vc.view.addSubview(self.repetitionPicker!)
+        return vc
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return 100
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return String(row + 1)
+    }
 }

@@ -41,13 +41,12 @@ struct WorkoutDayManager {
         }
     }
     
-    mutating func deleteWorkout(with workoutIdx: Int) {
-        let workout = workouts[workoutIdx]
+    mutating func delete(workout: Workout) {
         let exercise = workout.exercise!
-        
         context.delete(workout)
-        workouts.remove(at: workoutIdx)
-        
+        if let wIdx = workouts.firstIndex(of: workout) {
+            workouts.remove(at: wIdx)
+        }
         if getWorkoutsBy(exercise: exercise).count == 0 {
             if let exIdx = exercises.firstIndex(of: exercise) {
                 exercises.remove(at: exIdx)

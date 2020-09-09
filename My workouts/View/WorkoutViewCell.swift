@@ -21,6 +21,14 @@ class WorkoutViewCell: UITableViewCell {
     }
     
     var workoutIdx: Int?
+    var workout: Workout? {
+        didSet {
+            if let w = workout {
+                repetitionLabel.text = String(format: "%4d", w.repetition)
+                timeLabel.text = w.date!.getFormatedDateString(format: "HH:mm a")
+            }
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
