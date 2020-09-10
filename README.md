@@ -9,7 +9,7 @@ A workouts tracking app.
 * Custom Alert
 * FSCalendar
 * UserDefaults
-* MVC and Delegate design pattern
+* MVC and Delegate design patterns
 
 <p>
 <img src="Documentation/1.gif" height="600px">
