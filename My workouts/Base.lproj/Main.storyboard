@@ -134,13 +134,21 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" title="My workouts" id="JTC-ws-4If"/>
+                    <navigationItem key="navigationItem" title="My workouts" id="JTC-ws-4If">
+                        <barButtonItem key="rightBarButtonItem" image="square.and.pencil" catalog="system" id="Xeb-q9-oNo">
+                            <color key="tintColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="settingsButtonPressed:" destination="BYZ-38-t0r" id="SFI-RZ-0qA"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="calendar" destination="d2m-Wf-qWI" id="msl-vZ-pCO"/>
                         <outlet property="exercisePicker" destination="BNW-Vr-8jS" id="DXW-53-4v7"/>
                         <outlet property="repetitionPicker" destination="TKL-Kv-1Zr" id="amK-cc-YhT"/>
                         <outlet property="totalWorkoutDaysLabel" destination="dGc-To-OAh" id="LSs-O3-0Na"/>
                         <segue destination="2zr-sA-gdZ" kind="presentation" identifier="WorkoutDayDetailSegue" id="80u-Kh-YoP"/>
+                        <segue destination="zIN-qr-tbb" kind="show" identifier="SettingsSegue" id="Vni-U9-cHk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -190,12 +198,43 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Ax-xJ-0vN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1830" y="121"/>
+            <point key="canvasLocation" x="1858" y="467"/>
+        </scene>
+        <!--Settings Table View Controller-->
+        <scene sceneID="EeV-Cp-2dD">
+            <objects>
+                <tableViewController id="zIN-qr-tbb" customClass="SettingsTableViewController" customModule="My_workouts" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="th0-Vh-PCa">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Uqg-be-Hqz">
+                                <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Uqg-be-Hqz" id="OJL-cF-1HE">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="zIN-qr-tbb" id="d6m-9I-mwk"/>
+                            <outlet property="delegate" destination="zIN-qr-tbb" id="wJg-8c-X1j"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="EfU-jc-Lrc"/>
+                    <connections>
+                        <outlet property="settingsTableView" destination="th0-Vh-PCa" id="irn-eV-vPS"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2oc-q2-Slq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1858" y="-194"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Z2S-lc-wH2">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="XTr-xD-Whd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Qzo-zk-d4w" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="2K8-Ph-gOJ">
@@ -207,12 +246,14 @@
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="XNv-vc-AMM"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XTr-xD-Whd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="137.68115942028987" y="115.84821428571428"/>
         </scene>
     </scenes>
     <resources>
         <image name="plus" catalog="system" width="128" height="113"/>
+        <image name="square.and.pencil" catalog="system" width="128" height="118"/>
         <namedColor name="NEPHRITIS">
             <color red="0.15299999713897705" green="0.68199998140335083" blue="0.37599998712539673" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

@@ -12,7 +12,6 @@ class DayViewController: UIViewController {
 
     @IBOutlet weak var dayDetailsTableView: UITableView!
     
-    var dataModel = WorkoutsManager()
     var workoutDayManager = WorkoutDayManager()
     var mainViewController: MainViewController?
     var repetitionPicker: UIPickerView?
@@ -27,9 +26,11 @@ class DayViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        workoutDayManager.delegete = self
         self.dayDetailsTableView.register(WorkoutViewCell.nib, forCellReuseIdentifier: WorkoutViewCell.reuseIdentifier)
         self.dayDetailsTableView.register(WorkoutSectionHeaderView.nib, forHeaderFooterViewReuseIdentifier: WorkoutSectionHeaderView.reuseIdentifier)
-        self.dayDetailsTableView.tableHeaderView = UIView()
+        
+        self.dayDetailsTableView.tableHeaderView = createTableHeaderView()
         self.dayDetailsTableView.sectionHeaderHeight = 50
         self.dayDetailsTableView.tableFooterView = UIView()
     }
@@ -40,9 +41,35 @@ class DayViewController: UIViewController {
     }
 }
 
+//MARK: - WorkoutDayManager Delegate methods
+
+extension DayViewController: WorkoutDayManagerDelegate {
+    func backToMainVC() {
+        dismiss(animated: true, completion: nil)
+    }
+}
+
 //MARK: - TableView Delegate and DataSource methods
 
 extension DayViewController: UITableViewDelegate, UITableViewDataSource {
+    func createTableHeaderView() -> UIView {
+        let headerView = UIView()
+        headerView.frame.size.height = 70
+        let label = UILabel()
+        label.text = day!.date!.getFormatedDateString(format: "EEEE, MMM d, yyyy")
+        label.textAlignment = .center
+        label.font = .boldSystemFont(ofSize: 17)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        headerView.addSubview(label)
+        NSLayoutConstraint.activate([
+            label.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 15.0),
+            label.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -15.0),
+            label.topAnchor.constraint(equalTo: headerView.topAnchor),
+            label.bottomAnchor.constraint(equalTo: headerView.bottomAnchor)
+        ])
+        return headerView
+    }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return workoutDayManager.exercises.count
@@ -106,9 +133,7 @@ extension DayViewController: UITableViewDelegate, UITableViewDataSource {
                 let selectedRepetition = self.repetitionPicker!.selectedRow(inComponent: 0) + 1
                 workout.repetition = Int32(selectedRepetition)
                 self.workoutDayManager.saveData()
-                //DispatchQueue.main.async {
-                    self.dayDetailsTableView.reloadData()
-                //}
+                self.dayDetailsTableView.reloadData()
             }
             action.setValue(UIColor.label, forKey: "titleTextColor")
             alert.addAction(action)
@@ -142,6 +167,8 @@ extension DayViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
+//MARK: - UIPickerView Delegate and DataSource methods
+
 extension DayViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func createUpdateView(workout: Workout) -> UIViewController {
         let vc = UIViewController()
@@ -166,7 +193,7 @@ extension DayViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 100
+        return workoutDayManager.maxRepetitionNumber
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {

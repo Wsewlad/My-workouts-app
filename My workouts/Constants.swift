@@ -10,6 +10,7 @@ import Foundation
 
 struct K {
     static let appName = "My workouts"
-    static let dayCellIdentifier = "WorkoutDayCell"
     static let dayDetailSegueIdentifier = "WorkoutDayDetailSegue"
+    static let settingsSegueIdentifier = "SettingsSegue"
+    static let maxExerciseRepetitionDictName = "MaxExerciseRepetitionDict"
 }

@@ -9,6 +9,10 @@
 import UIKit
 import CoreData
 
+protocol WorkoutDayManagerDelegate {
+    func backToMainVC()
+}
+
 struct WorkoutDayManager {
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -16,6 +20,8 @@ struct WorkoutDayManager {
     var day: Day?
     var workouts = [Workout]()
     var exercises = [Exercise]()
+    var delegete: WorkoutDayManagerDelegate?
+    let maxRepetitionNumber = 100
     
     mutating func loadData() {
         do {
@@ -54,6 +60,7 @@ struct WorkoutDayManager {
         }
         if workouts.count == 0 {
             context.delete(day!)
+            delegete?.backToMainVC()
         }
         saveData()
     }

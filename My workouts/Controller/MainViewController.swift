@@ -27,7 +27,6 @@ class MainViewController: UIViewController {
         loadData()
     }
     
-    //MARK: - CoreData Methods
     func saveData() {
         workoutsManager.saveData()
         calendar.reloadData()
@@ -38,14 +37,19 @@ class MainViewController: UIViewController {
         calendar.reloadData()
         updateTotal()
         calendar.setCurrentPage(Date(), animated: true)
+        let selectedExerciseIdx = self.exercisePicker.selectedRow(inComponent: 0)
+        setLastMaxRepetition(exerciseNameIdx: selectedExerciseIdx)
     }
     
     func updateTotal() {
         let workoutDaysInMonth = workoutsManager.getDaysBy(month: calendar.currentPage.month)
         totalWorkoutDaysLabel.text = "Workout days: \(workoutDaysInMonth.count)"
     }
+    
+    @IBAction func settingsButtonPressed(_ sender: UIBarButtonItem) {
+        performSegue(withIdentifier: K.settingsSegueIdentifier, sender: self)
+    }
 }
-
 
 //MARK: - Picker View Delegate and DataSource Methods
 
@@ -100,11 +104,15 @@ extension MainViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         return vc
     }
     
+    func setLastMaxRepetition(exerciseNameIdx: Int) {
+        if let maxExerciseRepetition = workoutsManager.getMaxExerciseRepetition(by: exerciseNameIdx) {
+            repetitionPicker?.selectRow(Int(maxExerciseRepetition - 1), inComponent: 0, animated: true)
+        }
+    }
+    
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if pickerView.tag == 1 {
-            if workoutsManager.exerciseNames[row] == "PUSH-UPS" {
-                repetitionPicker?.selectRow(29, inComponent: 0, animated: true)
-            }
+            setLastMaxRepetition(exerciseNameIdx: row)
         }
     }
     
@@ -119,24 +127,18 @@ extension MainViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return pickerView.tag == 1 ? workoutsManager.exerciseNames[row] : String(row + 1)
     }
-    
-    
 }
 
-
 //MARK: - FSCalendar DataSource and Delegate
+
 class FSCellTapGestureRecognizer: UITapGestureRecognizer {
     var date: Date?
 }
 
 extension MainViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
-
-//    func calendar(_ calendar: FSCalendar, imageFor date: Date) -> UIImage? {
-//        if workoutsManager.getDayBy(date: date) != nil {
-//            return UIImage(systemName: "checkmark")
-//        }
-//        return nil
-//    }
+    func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
+        updateTotal()
+    }
     
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, fillDefaultColorFor date: Date) -> UIColor? {
         if workoutsManager.getDayBy(date: date) != nil {
@@ -150,10 +152,6 @@ extension MainViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalend
             return UIColor.white
         }
         return nil
-    }
-    
-    func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
-        updateTotal()
     }
     
     func calendar(_ calendar: FSCalendar, willDisplay cell: FSCalendarCell, for date: Date, at monthPosition: FSCalendarMonthPosition) {

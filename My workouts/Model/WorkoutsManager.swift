@@ -17,6 +17,7 @@ struct WorkoutsManager {
     var exercises = [Exercise]()
     var currentDay: Day?
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    let defaults = UserDefaults.standard
     
     
     func newWorkout(exerciseNameIdx: Int, repetition: Int, date: Date) {
@@ -26,7 +27,30 @@ struct WorkoutsManager {
         newWorkout.day = getOrCreateDayBy(date: date)
         newWorkout.exercise = getExerciseBy(name: exerciseNames[exerciseNameIdx])
         newWorkout.repetition = Int32(repetition)
+        updateMaxExerciseRepetition(workout: newWorkout)
         saveData()
+    }
+    
+    func updateMaxExerciseRepetition(workout: Workout) {
+        let currentEName = workout.exercise!.name!
+        let currentER = workout.repetition
+        var maxERDict = defaults.dictionary(forKey: K.maxExerciseRepetitionDictName) as? [String: Int32] ?? [currentEName : currentER]
+        
+        if let prevER = maxERDict[currentEName] {
+            maxERDict[currentEName] = currentER > prevER ? currentER : prevER
+        } else {
+            maxERDict[currentEName] = currentER
+        }
+        defaults.set(maxERDict, forKey: K.maxExerciseRepetitionDictName)
+    }
+    
+    func getMaxExerciseRepetition(by exerciseNameIdx: Int) -> Int32? {
+        let exerciseName = self.exerciseNames[exerciseNameIdx]
+        var maxExerciseRepetition: Int32?
+        if let maxERDict = defaults.dictionary(forKey: K.maxExerciseRepetitionDictName) as? [String: Int32] {
+            maxExerciseRepetition = maxERDict[exerciseName]
+        }
+        return maxExerciseRepetition
     }
     
     func saveData() {
