@@ -9,22 +9,24 @@
 import UIKit
 
 struct SettingsManager {
-    
     let maxRepetitionNumber = 100
     let exerciseNames = ["PUSH-UPS", "JUMPING JACK", "WIDE ARM PUSH-UPS", "SQUATS", "SUMO SQUAT"]
     let defaults = UserDefaults.standard
     var maxERDict = [String: Int32]()
     var maxENames = [String]()
+    var unusedENames = [String]()
     
     // MER = Maximum Exercise Repetition
     
     mutating func loadMERData() {
         if let merDict = defaults.dictionary(forKey: K.maxExerciseRepetitionDictName) as? [String: Int32] {
             self.maxERDict = merDict
-            self.maxENames = merDict.map { $0.key }
+            self.maxENames = merDict.map { $0.key }.sorted()
+            self.unusedENames = self.exerciseNames.difference(from: self.maxENames)
         } else {
             self.maxERDict = [String: Int32]()
             self.maxENames = [String]()
+            self.unusedENames = [String]()
         }
     }
     
@@ -49,5 +51,13 @@ struct SettingsManager {
             defaults.removeObject(forKey: K.maxExerciseRepetitionDictName)
             loadMERData()
         }
+    }
+}
+
+extension Array where Element: Hashable {
+    func difference(from other: [Element]) -> [Element] {
+        let thisSet = Set(self)
+        let otherSet = Set(other)
+        return Array(thisSet.symmetricDifference(otherSet))
     }
 }

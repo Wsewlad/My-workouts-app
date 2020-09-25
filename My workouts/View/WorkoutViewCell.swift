@@ -15,7 +15,9 @@ class WorkoutViewCell: UITableViewCell {
     @IBOutlet weak var repetitionLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     
-    static let reuseIdentifier: String = String(describing: self)
+    static var reuseIdentifier: String {
+        return String(describing: self)
+    }
     static var nib: UINib {
         return UINib(nibName: String(describing: self), bundle: nil)
     }

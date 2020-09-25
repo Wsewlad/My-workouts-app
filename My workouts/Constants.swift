@@ -13,4 +13,14 @@ struct K {
     static let dayDetailSegueIdentifier = "WorkoutDayDetailSegue"
     static let settingsSegueIdentifier = "SettingsSegue"
     static let maxExerciseRepetitionDictName = "MaxExerciseRepetitionDict"
+    struct Settings {
+        static let title = "Settings"
+        static let merSectionTitle = "Maximum Exercise Repetition"
+        static let exercisesTitle = "Exercises"
+        static let numberOfsections = 2
+        static let merSectionIdx = 0
+        static let exercisesSectionIdx = 1
+        static let sectionHeaderHeight = 70
+        static let sectionFooterHeight = 100
+    }
 }

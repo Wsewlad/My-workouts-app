@@ -12,8 +12,11 @@ class MERSettingsCell: UITableViewCell {
 
     @IBOutlet weak var exerciseNameLabel: UILabel!
     @IBOutlet weak var maxRepetitionLabel: UILabel!
+    @IBOutlet weak var maxRepetitionStepper: UIStepper!
     
-    static let reuseIdentifier: String = String(describing: self)
+    static var reuseIdentifier: String {
+        return String(describing: self)
+    }
     static var nib: UINib {
         return UINib(nibName: String(describing: self), bundle: nil)
     }
@@ -30,6 +33,7 @@ class MERSettingsCell: UITableViewCell {
         didSet {
             if let r = maxRepetition {
                 maxRepetitionLabel.text = String(format: "%4d", r)
+                maxRepetitionStepper.value = Double(r)
             }
         }
     }

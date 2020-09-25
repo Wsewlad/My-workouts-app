@@ -25,6 +25,10 @@
 		829C8867250A746E008F82DA /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C8866250A746E008F82DA /* SettingsManager.swift */; };
 		829C886A250A7F5D008F82DA /* MERSettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C8868250A7F5D008F82DA /* MERSettingsCell.swift */; };
 		829C886B250A7F5D008F82DA /* MERSettingsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 829C8869250A7F5D008F82DA /* MERSettingsCell.xib */; };
+		829C886D250B9787008F82DA /* SettingsSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C886C250B9787008F82DA /* SettingsSectionHeaderView.swift */; };
+		829C886F250B97C1008F82DA /* SettingsSectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 829C886E250B97C1008F82DA /* SettingsSectionHeaderView.xib */; };
+		829C8871251BA0FC008F82DA /* SettingsSectionFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C8870251BA0FC008F82DA /* SettingsSectionFooterView.swift */; };
+		829C8873251BA10E008F82DA /* SettingsSectionFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 829C8872251BA10E008F82DA /* SettingsSectionFooterView.xib */; };
 		82D5440824F96A0C00F95FD0 /* WorkoutSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D5440724F96A0C00F95FD0 /* WorkoutSectionHeaderView.swift */; };
 		82D5440A24F96A2F00F95FD0 /* WorkoutSectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82D5440924F96A2F00F95FD0 /* WorkoutSectionHeaderView.xib */; };
 /* End PBXBuildFile section */
@@ -51,6 +55,10 @@
 		829C8866250A746E008F82DA /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
 		829C8868250A7F5D008F82DA /* MERSettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MERSettingsCell.swift; sourceTree = "<group>"; };
 		829C8869250A7F5D008F82DA /* MERSettingsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MERSettingsCell.xib; sourceTree = "<group>"; };
+		829C886C250B9787008F82DA /* SettingsSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSectionHeaderView.swift; sourceTree = "<group>"; };
+		829C886E250B97C1008F82DA /* SettingsSectionHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsSectionHeaderView.xib; sourceTree = "<group>"; };
+		829C8870251BA0FC008F82DA /* SettingsSectionFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSectionFooterView.swift; sourceTree = "<group>"; };
+		829C8872251BA10E008F82DA /* SettingsSectionFooterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsSectionFooterView.xib; sourceTree = "<group>"; };
 		82D5440724F96A0C00F95FD0 /* WorkoutSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutSectionHeaderView.swift; sourceTree = "<group>"; };
 		82D5440924F96A2F00F95FD0 /* WorkoutSectionHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WorkoutSectionHeaderView.xib; sourceTree = "<group>"; };
 		9B9D36E168B9BEC95F7F6A57 /* Pods-My workouts.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-My workouts.debug.xcconfig"; path = "Target Support Files/Pods-My workouts/Pods-My workouts.debug.xcconfig"; sourceTree = "<group>"; };
@@ -142,6 +150,10 @@
 				82D5440924F96A2F00F95FD0 /* WorkoutSectionHeaderView.xib */,
 				829C8868250A7F5D008F82DA /* MERSettingsCell.swift */,
 				829C8869250A7F5D008F82DA /* MERSettingsCell.xib */,
+				829C886C250B9787008F82DA /* SettingsSectionHeaderView.swift */,
+				829C886E250B97C1008F82DA /* SettingsSectionHeaderView.xib */,
+				829C8870251BA0FC008F82DA /* SettingsSectionFooterView.swift */,
+				829C8872251BA10E008F82DA /* SettingsSectionFooterView.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -216,9 +228,11 @@
 			files = (
 				82292F6524EFFE7F0061DE0C /* LaunchScreen.storyboard in Resources */,
 				82292F6224EFFE7F0061DE0C /* Assets.xcassets in Resources */,
+				829C886F250B97C1008F82DA /* SettingsSectionHeaderView.xib in Resources */,
 				82D5440A24F96A2F00F95FD0 /* WorkoutSectionHeaderView.xib in Resources */,
 				82292F7E24F8F3920061DE0C /* WorkoutViewCell.xib in Resources */,
 				82292F5D24EFFE760061DE0C /* Main.storyboard in Resources */,
+				829C8873251BA10E008F82DA /* SettingsSectionFooterView.xib in Resources */,
 				829C886B250A7F5D008F82DA /* MERSettingsCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -277,7 +291,9 @@
 				82292F5A24EFFE760061DE0C /* MainViewController.swift in Sources */,
 				829C8865250A5F25008F82DA /* SettingsTableViewController.swift in Sources */,
 				82292F5624EFFE760061DE0C /* AppDelegate.swift in Sources */,
+				829C8871251BA0FC008F82DA /* SettingsSectionFooterView.swift in Sources */,
 				82292F6024EFFE760061DE0C /* My_workouts.xcdatamodeld in Sources */,
+				829C886D250B9787008F82DA /* SettingsSectionHeaderView.swift in Sources */,
 				82292F7024F007890061DE0C /* Constants.swift in Sources */,
 				82292F7724F5902B0061DE0C /* DayViewController.swift in Sources */,
 				829C886A250A7F5D008F82DA /* MERSettingsCell.swift in Sources */,

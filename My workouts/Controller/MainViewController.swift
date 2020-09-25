@@ -175,6 +175,9 @@ extension MainViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalend
             let destinationVC = segue.destination as! DayViewController
             destinationVC.day = workoutsManager.getDayBy(date: tapGesture.date!)!
             destinationVC.mainViewController = self
+        } else if segue.identifier == K.settingsSegueIdentifier {
+            let destinationVC = segue.destination as! SettingsTableViewController
+            destinationVC.mainViewController = self
         }
     }
 }
